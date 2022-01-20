@@ -1,33 +1,20 @@
 public class Main {
     public static void main(String[] args) {
-        CustomArrayList<Integer> myList = new CustomArrayList<>();
-        myList.print();
+        ViewManager viewManager = ViewManager.getViewManager();
 
-        myList.add(1);
-        myList.print();
-        myList.add(2);
-        myList.print();
-        myList.add(3);
-        myList.print();
-        myList.add(4);
-        myList.print();
-        myList.add(5);
-        myList.print();
+        viewManager.registerView(new LogoutView());
+        viewManager.registerView(new LoginView());
+        viewManager.registerView(new RegisterView());
+        viewManager.registerView(new MainMenuView());
+        viewManager.registerView(new CreateAccountView());
+        viewManager.registerView(new DepositWithdrawView());
+        viewManager.registerView(new DisplayAccountsView());
+        viewManager.registerView(new QuitView());
 
-        myList.add(6, 2);
-        myList.print();
+        viewManager.navigate(ViewNameStrings.logoutView);
 
-        myList.remove(2);
-        myList.print();
-
-        myList.add(6);
-        myList.print();
-
-        System.out.println("Object 1 located in list at index: " + myList.contains(1));
-        System.out.println("Object 6 located in list at index: " + myList.contains(6));
-        System.out.println("Object 17 located in list at index: " + myList.contains(17));
-
-        myList.clear();
-        myList.print();
+        while (viewManager.isRunning()) {
+            viewManager.render();
+        }
     }
 }
