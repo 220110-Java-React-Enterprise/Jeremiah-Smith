@@ -18,15 +18,15 @@ public class DisplayAccountsView extends View{
             switch (input) {
                 case "1":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.mainMenuView);
+                    viewManager.navigate(DataStore.mainMenuViewName);
                     break;
                 case "2":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.logoutView);
+                    viewManager.navigate(DataStore.logoutViewName);
                     break;
                 case "3":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.quitView);
+                    viewManager.navigate(DataStore.quitViewName);
                     break;
                 default:
                     System.out.println("Invalid selection. Please try again.");

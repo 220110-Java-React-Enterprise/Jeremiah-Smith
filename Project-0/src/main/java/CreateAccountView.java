@@ -16,7 +16,7 @@ public class CreateAccountView extends View{
             switch (input) {
                 case "1":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.mainMenuView);
+                    viewManager.navigate(DataStore.mainMenuViewName);
                     break;
                 default:
                     System.out.println("Invalid selection. Please try again.");

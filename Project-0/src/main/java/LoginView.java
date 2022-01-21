@@ -17,11 +17,11 @@ public class LoginView extends View{
             switch (input) {
                 case "1":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.mainMenuView);
+                    viewManager.navigate(DataStore.mainMenuViewName);
                     break;
                 case "2":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.registerView);
+                    viewManager.navigate(DataStore.registerViewName);
                     break;
                 default:
                     System.out.println("Invalid selection. Please try again.");

@@ -20,23 +20,23 @@ public class MainMenuView extends View{
             switch (input) {
                 case "1":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.createAccountView);
+                    viewManager.navigate(DataStore.createAccountViewName);
                     break;
                 case "2":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.depositWithdrawView);
+                    viewManager.navigate(DataStore.depositWithdrawViewName);
                     break;
                 case "3":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.displayAccountsView);
+                    viewManager.navigate(DataStore.displayAccountsViewName);
                     break;
                 case "4":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.logoutView);
+                    viewManager.navigate(DataStore.logoutViewName);
                     break;
                 case "5":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.quitView);
+                    viewManager.navigate(DataStore.quitViewName);
                     break;
                 default:
                     System.out.println("Invalid selection. Please try again.");

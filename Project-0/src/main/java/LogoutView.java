@@ -18,15 +18,15 @@ public class LogoutView extends View{
             switch (input) {
                 case "1":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.loginView);
+                    viewManager.navigate(DataStore.loginViewName);
                     break;
                 case "2":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.registerView);
+                    viewManager.navigate(DataStore.registerViewName);
                     break;
                 case "3":
                     viewManager.setValidInputTrue();
-                    viewManager.navigate(ViewNameStrings.quitView);
+                    viewManager.navigate(DataStore.quitViewName);
                     break;
                 default:
                     System.out.println("Invalid selection. Please try again.");
