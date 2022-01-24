@@ -83,7 +83,7 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
     }
 
     // returns accounts by username, to store in a list
-    public void storeAccounts() {
+    public void storeLoggedInUserAccounts() {
         try {
             String sql = "SELECT * FROM accounts WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);

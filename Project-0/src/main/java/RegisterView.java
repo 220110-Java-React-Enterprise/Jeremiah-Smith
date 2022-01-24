@@ -14,20 +14,26 @@ public class RegisterView extends View{
         do {
             viewManager.setValidInputFalse();
 
-            System.out.println("Enter desired username:");
+            System.out.println("Enter desired username (or press 1 to return):");
             DataStore.usernameInput = viewManager.getScanner().nextLine();
-            System.out.println("Enter desired password:");
-            DataStore.passwordInput = viewManager.getScanner().nextLine();
-
-            try {
-                UserModel userModel = new UserModel(null, DataStore.usernameInput, DataStore.passwordInput);
-                DataStore.loggedInUser = DataStore.userRepo.create(userModel);
-
+            if (DataStore.usernameInput.equals("1")) {
                 viewManager.setValidInputTrue();
-                System.out.println("Success. Returning to start screen.");
                 viewManager.navigate(DataStore.logoutViewName);
-            } catch (SQLException e) {
-                System.out.println("Invalid username. Try again");
+            }
+            else {
+                System.out.println("Enter desired password:");
+                DataStore.passwordInput = viewManager.getScanner().nextLine();
+
+                try {
+                    UserModel userModel = new UserModel(null, DataStore.usernameInput, DataStore.passwordInput);
+                    DataStore.loggedInUser = DataStore.userRepo.create(userModel);
+
+                    viewManager.setValidInputTrue();
+                    System.out.println("Success. Returning to start screen.");
+                    viewManager.navigate(DataStore.logoutViewName);
+                } catch (SQLException e) {
+                    System.out.println("Invalid username. Try again");
+                }
             }
         } while (!viewManager.isValidInput());
     }
