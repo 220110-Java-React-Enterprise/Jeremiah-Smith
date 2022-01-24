@@ -6,6 +6,7 @@ public class QuitView extends View{
 
     @Override
     public void renderView() {
+        DataStore.clearData();
         System.out.println("Goodbye.");
         viewManager.quit();
     }

@@ -1,31 +1,33 @@
+import java.sql.SQLException;
+
 public class RegisterView extends View{
     public RegisterView() {
         viewName = "RegisterView";
         viewManager = ViewManager.getViewManager();
     }
 
+    // go to start screen if register success
+    // otherwise try again
     @Override
     public void renderView() {
         System.out.println("====================Register====================");
-        System.out.println("Choose one of the following:");
-        System.out.println("1 - Login");
-        System.out.println("2 - Register");
-
         do {
             viewManager.setValidInputFalse();
-            String input = viewManager.getScanner().nextLine();
-            switch (input) {
-                case "1":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate("LoginView");
-                    break;
-                case "2":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate("RegisterView");
-                    break;
-                default:
-                    System.out.println("Invalid selection. Please try again.");
-                    break;
+
+            System.out.println("Enter desired username:");
+            DataStore.usernameInput = viewManager.getScanner().nextLine();
+            System.out.println("Enter desired password:");
+            DataStore.passwordInput = viewManager.getScanner().nextLine();
+
+            try {
+                UserModel userModel = new UserModel(null, DataStore.usernameInput, DataStore.passwordInput);
+                DataStore.loggedInUser = DataStore.userRepo.create(userModel);
+
+                viewManager.setValidInputTrue();
+                System.out.println("Success. Returning to start screen.");
+                viewManager.navigate(DataStore.logoutViewName);
+            } catch (SQLException e) {
+                System.out.println("Invalid username. Try again");
             }
         } while (!viewManager.isValidInput());
     }

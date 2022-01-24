@@ -6,6 +6,7 @@ public class LogoutView extends View{
 
     @Override
     public void renderView() {
+        DataStore.clearData();
         System.out.println("====================Login====================");
         System.out.println("Choose one of the following:");
         System.out.println("1 - Login");

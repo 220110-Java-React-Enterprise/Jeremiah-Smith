@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserRepo implements DataSourceCRUD<UserModel>{
     private final Connection connection;
@@ -11,17 +8,21 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
     }
 
     @Override
-    public UserModel create(UserModel userModel) {
+    public UserModel create(UserModel userModel) throws SQLException {
         try {
             String sql = "INSERT INTO users (user_username, user_password) VALUES (?,?)";
-            PreparedStatement pstmt = connection.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, userModel.getUser_username());
             pstmt.setString(2, userModel.getUser_password());
 
             pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            userModel.setUser_id(rs.getInt(1));
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }
 
         return userModel;
@@ -57,6 +58,7 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
 
     // overloaded read method, taking user_username as an input parameter, instead of user_id
     // will be used to check login credentials
+    // usernames must be unique
     public UserModel read(String username) {
         try {
             String sql = "SELECT * FROM users WHERE user_username = ?";
