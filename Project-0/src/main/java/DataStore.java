@@ -10,18 +10,12 @@ public class DataStore {
     public static String quitViewName = "QuitView";
 
     public static UserModel loggedInUser;
-    public static CustomArrayList<AccountModel> loggedInUserAccounts;
+    public static CustomArrayList<AccountModel> loggedInUserAccounts = new CustomArrayList<>();
     public static AccountModel selectedAccount;
 
     public static UserRepo userRepo = new UserRepo();
     public static AccountRepo accountRepo = new AccountRepo();
 
-    public static String usernameInput, passwordInput;
+    public static String usernameInput, passwordInput, accountNameInput;
     public static Double amountInput;
-
-    public static void clearData() {
-        loggedInUser = null;
-        loggedInUserAccounts = null;
-        selectedAccount = null;
-    }
 }

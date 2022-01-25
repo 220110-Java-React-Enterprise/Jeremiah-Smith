@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 public class DepositWithdrawView extends View{
     public DepositWithdrawView() {
         viewName = "DepositWithdrawView";
@@ -6,31 +8,37 @@ public class DepositWithdrawView extends View{
 
     @Override
     public void renderView() {
-        System.out.println("====================Main Menu====================");
-        System.out.println("Choose one of the following:");
-        System.out.println("1 - Main Menu");
-        System.out.println("2 - Logout");
-        System.out.println("3 - Quit");
+        System.out.println("====================Deposit/Withdraw====================");
 
         do {
             viewManager.setValidInputFalse();
-            String input = viewManager.getScanner().nextLine();
-            switch (input) {
-                case "1":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate(DataStore.mainMenuViewName);
-                    break;
-                case "2":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate(DataStore.logoutViewName);
-                    break;
-                case "3":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate(DataStore.quitViewName);
-                    break;
-                default:
-                    System.out.println("Invalid selection. Please try again.");
-                    break;
+
+            System.out.println("Enter desired account to deposit/withdraw (or press X to return):");
+            DataStore.accountNameInput = viewManager.getScanner().nextLine();
+            if (DataStore.accountNameInput.equals("X")) {
+                viewManager.setValidInputTrue();
+                viewManager.navigate(DataStore.mainMenuViewName);
+            }
+            else {
+                System.out.println("Enter deposit amount (insert \"-\" to withdraw):");
+                DataStore.amountInput = viewManager.getScanner().nextDouble();
+                viewManager.getScanner().nextLine();
+                for (AccountModel account :
+                        DataStore.loggedInUserAccounts) {
+                    if (account.getAccount_name().equals(DataStore.accountNameInput)) {
+                        Double newValue = account.getAmount() + DataStore.amountInput;
+                        if (newValue < 0) {
+                            System.out.println("Invalid amount. Try again.");
+                        }
+                        else {
+                            account.setAmount(newValue);
+                            DataStore.accountRepo.update(account);
+                            viewManager.setValidInputTrue();
+                            System.out.println("Success. Returning to main menu.");
+                            viewManager.navigate(DataStore.mainMenuViewName);
+                        }
+                    }
+                }
             }
         } while (!viewManager.isValidInput());
     }

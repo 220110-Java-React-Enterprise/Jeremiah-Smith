@@ -91,8 +91,10 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
 
             ResultSet rs = pstmt.executeQuery();
 
-            AccountModel model = new AccountModel();
+            DataStore.loggedInUserAccounts = new CustomArrayList<>();
+
             while (rs.next()) {
+                AccountModel model = new AccountModel();
                 model.setAccount_id(rs.getInt("account_id"));
                 model.setUser_id(rs.getInt("user_id"));
                 model.setAccount_name(rs.getString("account_name"));

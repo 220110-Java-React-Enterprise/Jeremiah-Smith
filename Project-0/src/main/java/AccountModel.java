@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 // accounts POJO
 public class AccountModel {
     private Integer account_id;

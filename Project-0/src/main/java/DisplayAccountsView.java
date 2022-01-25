@@ -6,32 +6,14 @@ public class DisplayAccountsView extends View{
 
     @Override
     public void renderView() {
-        System.out.println("====================Main Menu====================");
-        System.out.println("Choose one of the following:");
-        System.out.println("1 - Main Menu");
-        System.out.println("2 - Logout");
-        System.out.println("3 - Quit");
+        System.out.println("====================Accounts====================");
+        System.out.println("Accounts for " + DataStore.loggedInUser.getUser_username() + ":");
+        for (AccountModel account :
+                DataStore.loggedInUserAccounts) {
+            System.out.println(account.getAccount_name() + ": $" + account.getAmount());
+            System.out.println();
+        }
 
-        do {
-            viewManager.setValidInputFalse();
-            String input = viewManager.getScanner().nextLine();
-            switch (input) {
-                case "1":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate(DataStore.mainMenuViewName);
-                    break;
-                case "2":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate(DataStore.logoutViewName);
-                    break;
-                case "3":
-                    viewManager.setValidInputTrue();
-                    viewManager.navigate(DataStore.quitViewName);
-                    break;
-                default:
-                    System.out.println("Invalid selection. Please try again.");
-                    break;
-            }
-        } while (!viewManager.isValidInput());
+        viewManager.navigate(DataStore.mainMenuViewName);
     }
 }
