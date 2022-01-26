@@ -7,11 +7,10 @@ public class DisplayAccountsView extends View{
     @Override
     public void renderView() {
         System.out.println("====================Accounts====================");
-        System.out.println("Accounts for " + DataStore.loggedInUser.getUser_username() + ":");
+        System.out.println("Existing accounts for " + DataStore.loggedInUser.getUser_username() + ":");
         for (AccountModel account :
                 DataStore.loggedInUserAccounts) {
-            System.out.println(account.getAccount_name() + ": $" + account.getAmount());
-            System.out.println();
+            System.out.println(account.getAccount_name() + " - $" + account.getAmount());
         }
 
         viewManager.navigate(DataStore.mainMenuViewName);

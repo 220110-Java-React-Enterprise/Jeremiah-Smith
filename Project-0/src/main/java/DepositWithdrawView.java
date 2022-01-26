@@ -9,11 +9,18 @@ public class DepositWithdrawView extends View{
     @Override
     public void renderView() {
         System.out.println("====================Deposit/Withdraw====================");
+        System.out.println("Existing accounts for " + DataStore.loggedInUser.getUser_username() + ":");
+        for (AccountModel account :
+                DataStore.loggedInUserAccounts) {
+            System.out.println(account.getAccount_name() + " - $" + account.getAmount());
+        }
+
+        System.out.println();
 
         do {
             viewManager.setValidInputFalse();
 
-            System.out.println("Enter desired account to deposit/withdraw (or press X to return):");
+            System.out.println("Enter account name to deposit/withdraw (or press X to return):");
             DataStore.accountNameInput = viewManager.getScanner().nextLine();
             if (DataStore.accountNameInput.equals("X")) {
                 viewManager.setValidInputTrue();
@@ -40,6 +47,8 @@ public class DepositWithdrawView extends View{
                         }
                     }
                 }
+
+                System.out.println("Account not found. Try again.\n");
             }
         } while (!viewManager.isValidInput());
     }
