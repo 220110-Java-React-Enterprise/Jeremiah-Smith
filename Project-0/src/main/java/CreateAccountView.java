@@ -29,8 +29,8 @@ public class CreateAccountView extends View{
                 else {
                     try {
                         AccountModel accountModel = new AccountModel(null, DataStore.loggedInUser.getUser_id(), DataStore.accountNameInput, DataStore.amountInput);
-                        DataStore.loggedInUserAccounts.add(DataStore.accountRepo.create(accountModel));
-
+                        DataStore.accountRepo.create(accountModel);
+                        DataStore.accountRepo.storeLoggedInUserAccounts();
                         viewManager.setValidInputTrue();
                         System.out.println("Success. Returning to main menu.");
                         viewManager.navigate(DataStore.mainMenuViewName);

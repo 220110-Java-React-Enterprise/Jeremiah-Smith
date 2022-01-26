@@ -33,6 +33,7 @@ public class DepositWithdrawView extends View{
                         else {
                             account.setAmount(newValue);
                             DataStore.accountRepo.update(account);
+                            DataStore.accountRepo.storeLoggedInUserAccounts();
                             viewManager.setValidInputTrue();
                             System.out.println("Success. Returning to main menu.");
                             viewManager.navigate(DataStore.mainMenuViewName);
