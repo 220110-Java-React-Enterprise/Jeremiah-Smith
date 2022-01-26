@@ -27,28 +27,37 @@ public class DepositWithdrawView extends View{
                 viewManager.navigate(DataStore.mainMenuViewName);
             }
             else {
-                System.out.println("Enter deposit amount (insert \"-\" to withdraw):");
-                DataStore.amountInput = viewManager.getScanner().nextDouble();
-                viewManager.getScanner().nextLine();
+                boolean accountFound = false;
+
                 for (AccountModel account :
                         DataStore.loggedInUserAccounts) {
                     if (account.getAccount_name().equals(DataStore.accountNameInput)) {
-                        Double newValue = account.getAmount() + DataStore.amountInput;
-                        if (newValue < 0) {
-                            System.out.println("Invalid amount. Try again.");
-                        }
-                        else {
-                            account.setAmount(newValue);
-                            DataStore.accountRepo.update(account);
-                            DataStore.accountRepo.storeLoggedInUserAccounts();
-                            viewManager.setValidInputTrue();
-                            System.out.println("Success. Returning to main menu.");
-                            viewManager.navigate(DataStore.mainMenuViewName);
-                        }
+                        accountFound = true;
+                        DataStore.selectedAccount = account;
                     }
                 }
 
-                System.out.println("Account not found. Try again.\n");
+                if (accountFound) {
+                    System.out.println("Enter deposit amount (insert \"-\" to withdraw):");
+                    DataStore.amountInput = viewManager.getScanner().nextDouble();
+                    viewManager.getScanner().nextLine();
+
+                    Double newValue = DataStore.selectedAccount.getAmount() + DataStore.amountInput;
+                    if (newValue < 0) {
+                        System.out.println("Invalid amount. Try again.\n");
+                    }
+                    else {
+                        DataStore.selectedAccount.setAmount(newValue);
+                        DataStore.accountRepo.update(DataStore.selectedAccount);
+                        DataStore.accountRepo.storeLoggedInUserAccounts();
+                        viewManager.setValidInputTrue();
+                        System.out.println("Success. Returning to main menu.");
+                        viewManager.navigate(DataStore.mainMenuViewName);
+                    }
+                }
+                else {
+                    System.out.println("Account not found. Try again.\n");
+                }
             }
         } while (!viewManager.isValidInput());
     }
