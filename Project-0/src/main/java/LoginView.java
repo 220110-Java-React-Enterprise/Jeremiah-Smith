@@ -31,7 +31,7 @@ public class LoginView extends View{
                     viewManager.navigate(DataStore.mainMenuViewName);
                 }
                 else {
-                    System.out.println("Username/Password invalid. Try again.");
+                    System.out.println("Username/Password not found. Try again.\n");
                 }
             }
         } while (!viewManager.isValidInput());

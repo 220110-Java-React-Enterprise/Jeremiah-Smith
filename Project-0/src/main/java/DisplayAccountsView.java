@@ -1,3 +1,6 @@
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class DisplayAccountsView extends View{
     public DisplayAccountsView() {
         viewName = "DisplayAccountsView";
@@ -10,7 +13,7 @@ public class DisplayAccountsView extends View{
         System.out.println("Existing accounts for " + DataStore.loggedInUser.getUser_username() + ":");
         for (AccountModel account :
                 DataStore.loggedInUserAccounts) {
-            System.out.println(account.getAccount_name() + " - $" + account.getAmount());
+            System.out.println(account.getAccount_name() + " - " + NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(account.getAmount()));
         }
 
         viewManager.navigate(DataStore.mainMenuViewName);

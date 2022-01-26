@@ -8,7 +8,7 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
     }
 
     @Override
-    public UserModel create(UserModel userModel) throws SQLException {
+    public UserModel create(UserModel userModel) {
         try {
             String sql = "INSERT INTO users (user_username, user_password) VALUES (?,?)";
             PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -22,7 +22,7 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
             userModel.setUser_id(rs.getInt(1));
         }
         catch (SQLException e) {
-            throw e;
+            e.printStackTrace();
         }
 
         return userModel;
@@ -93,5 +93,23 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
     @Override
     public void delete(Integer id) {
 
+    }
+
+    // returns all usernames, to be stored in a list
+    public void storeAllUsernames() {
+        try {
+            String sql = "SELECT user_username FROM users";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            DataStore.usernames = new CustomArrayList<>();
+            while (rs.next()) {
+                DataStore.usernames.add(rs.getString("user_username"));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

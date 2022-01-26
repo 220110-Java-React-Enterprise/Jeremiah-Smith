@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 
 public class CreateAccountView extends View{
     public CreateAccountView() {
@@ -20,24 +21,66 @@ public class CreateAccountView extends View{
                 viewManager.navigate(DataStore.mainMenuViewName);
             }
             else {
-                System.out.println("Enter desired starting amount:");
-                DataStore.amountInput = viewManager.getScanner().nextDouble();
-                viewManager.getScanner().nextLine();
-                if (DataStore.amountInput < 0) {
-                    System.out.println("Invalid amount. Try again.");
-                }
-                else {
-                    try {
-                        AccountModel accountModel = new AccountModel(null, DataStore.loggedInUser.getUser_id(), DataStore.accountNameInput, DataStore.amountInput);
-                        DataStore.accountRepo.create(accountModel);
-                        DataStore.accountRepo.storeLoggedInUserAccounts();
-                        viewManager.setValidInputTrue();
-                        System.out.println("Success. Returning to main menu.");
-                        viewManager.navigate(DataStore.mainMenuViewName);
-                    } catch (SQLException e) {
-                        System.out.println("Duplicate account name. Try again.");
+                boolean duplicateAccountNameFound = false;
+
+                for (AccountModel account :
+                        DataStore.loggedInUserAccounts) {
+                    if (account.getAccount_name().equals(DataStore.accountNameInput)) {
+                        duplicateAccountNameFound = true;
                     }
                 }
+
+                if (!duplicateAccountNameFound) {
+                    System.out.println("Enter desired starting amount:");
+
+                    try {
+                        DataStore.amountInput = viewManager.getScanner().nextDouble();
+                        viewManager.getScanner().nextLine();
+                        if (DataStore.amountInput < 0) {
+                            System.out.println("Invalid amount. Try again.\n");
+                        }
+                        else {
+                            AccountModel accountModel = new AccountModel(null, DataStore.loggedInUser.getUser_id(), DataStore.accountNameInput, DataStore.amountInput);
+                            DataStore.accountRepo.create(accountModel);
+                            DataStore.accountRepo.storeLoggedInUserAccounts();
+                            viewManager.setValidInputTrue();
+                            System.out.println("Success. Returning to main menu.");
+                            viewManager.navigate(DataStore.mainMenuViewName);
+                        }
+                    }
+                    catch (InputMismatchException e) {
+                        viewManager.getScanner().nextLine();
+                        System.out.println("Invalid entry. Try again.\n");
+                    }
+                }
+                else {
+                    System.out.println("Duplicate account name found. Try again.\n");
+                }
+//                System.out.println("Enter desired starting amount:");
+//
+//                try {
+//                    DataStore.amountInput = viewManager.getScanner().nextDouble();
+//                    viewManager.getScanner().nextLine();
+//                    if (DataStore.amountInput < 0) {
+//                        System.out.println("Invalid amount. Try again.\n");
+//                    }
+//                    else {
+//                        try {
+//                            AccountModel accountModel = new AccountModel(null, DataStore.loggedInUser.getUser_id(), DataStore.accountNameInput, DataStore.amountInput);
+//                            DataStore.accountRepo.create(accountModel);
+//                            DataStore.accountRepo.storeLoggedInUserAccounts();
+//                            viewManager.setValidInputTrue();
+//                            System.out.println("Success. Returning to main menu.");
+//                            viewManager.navigate(DataStore.mainMenuViewName);
+//                        } catch (SQLException e) {
+//                            System.out.println("Duplicate account name. Try again.\n");
+//                        }
+//                    }
+//                }
+//                catch (InputMismatchException e) {
+//                    viewManager.getScanner().nextLine();
+//                    System.out.println("Invalid entry. Try again.\n");
+//                }
             }
         } while (!viewManager.isValidInput());
     }

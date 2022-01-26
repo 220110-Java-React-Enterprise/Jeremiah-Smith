@@ -6,7 +6,7 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
     public AccountRepo() { connection = ConnectionManager.getConnection(); }
 
     @Override
-    public AccountModel create(AccountModel accountModel) throws SQLException {
+    public AccountModel create(AccountModel accountModel) {
         try {
             String sql = "INSERT INTO accounts (user_id, account_name, amount) VALUES (?,?,?)";
             PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -21,7 +21,7 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
             accountModel.setAccount_id(rs.getInt(1));
         }
         catch (SQLException e) {
-            throw e;
+            e.printStackTrace();
         }
 
         return accountModel;
