@@ -1,4 +1,3 @@
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 
 public class CreateAccountView extends View{
@@ -56,31 +55,6 @@ public class CreateAccountView extends View{
                 else {
                     System.out.println("Duplicate account name found. Try again.\n");
                 }
-//                System.out.println("Enter desired starting amount:");
-//
-//                try {
-//                    DataStore.amountInput = viewManager.getScanner().nextDouble();
-//                    viewManager.getScanner().nextLine();
-//                    if (DataStore.amountInput < 0) {
-//                        System.out.println("Invalid amount. Try again.\n");
-//                    }
-//                    else {
-//                        try {
-//                            AccountModel accountModel = new AccountModel(null, DataStore.loggedInUser.getUser_id(), DataStore.accountNameInput, DataStore.amountInput);
-//                            DataStore.accountRepo.create(accountModel);
-//                            DataStore.accountRepo.storeLoggedInUserAccounts();
-//                            viewManager.setValidInputTrue();
-//                            System.out.println("Success. Returning to main menu.");
-//                            viewManager.navigate(DataStore.mainMenuViewName);
-//                        } catch (SQLException e) {
-//                            System.out.println("Duplicate account name. Try again.\n");
-//                        }
-//                    }
-//                }
-//                catch (InputMismatchException e) {
-//                    viewManager.getScanner().nextLine();
-//                    System.out.println("Invalid entry. Try again.\n");
-//                }
             }
         } while (!viewManager.isValidInput());
     }
